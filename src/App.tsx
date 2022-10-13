@@ -5,6 +5,7 @@ const App=()=> {
   const [count, setCount]= useState(0)
   const [mode, setMode] = useState(false) // false means roll replaces previous, true means it adds to count
   const [coin, setCoin] = useState('Coin')
+  const [ rollFormula, setRollFormula] = useState([])
 
 
   //change from replace to add and vice versa
@@ -14,6 +15,10 @@ const App=()=> {
 
   const rollDie = (die:number)=>{
     return Math.floor(Math.random() * die+1)
+  }
+
+  const addToFormula=()=>{
+
   }
 
 
@@ -67,6 +72,13 @@ const App=()=> {
     changeRoll(roll)
   }
 
+//d100 function
+const roll100 = ()=>{
+  let roll = rollDie(100)
+  changeRoll(roll)
+}
+
+
 //coin flip function
   const flipCoin = ()=>{
     return rollDie(2) == 1 ? setCoin('Heads') : setCoin('Tails');
@@ -75,16 +87,40 @@ const App=()=> {
 
   return(
 <div className=" container-fluid">
+    <div className={`grid grid-cols-3 row m-1`}>
+      <div className='grid-cols-1'></div>
+
 {/* count */}
-    <div className={`row m-1 text-2xl`}>
-      <span
-        className={`
-          ${count == 20 ? 'text-green-500' : 'text-black'}
-          ${count == 0 ? 'text-red-500' : 'text-black'}`
-        }
-      >{count}</span>
-      <span className="ml-10">{coin}</span>
+      <div className='grid-cols-1'>
+        <span
+          className={`text-5xl
+            ${count == 20 ? 'text-green-500' : 'text-black'}
+            ${count == 0 ? 'text-red-500' : 'text-black'}`
+          }
+        >{count}</span>
+      </div>
+
+{/* utility functions */}
+      <div className={`grid-cols-1`}>
+         {/* change mode */}
+         <button
+            className={`
+              hover:bg-gray-700 hover:text-white m-1 p-1
+              ${mode === false ? 'bg-gray-200 text-black' : 'bg-gray-500 text-white'  }`
+            }
+            onClick={modeChange}
+          >Add</button>
+
+  {/* reset button */}
+          <button
+            onClick={resetBtn}
+            className={`
+            hover:bg-gray-700 hover:text-white m-1 p-1
+            `}
+          >Reset</button>
+      </div>
     </div>
+
   <div className="grid grid-cols-3 row m-1">
 
 {/* column 1 */}
@@ -140,7 +176,14 @@ const App=()=> {
   </div>
 
 {/* column 1 */}
-    <div className="grid-cols-1 m-1">
+    <div className="grid-cols-1 m-1 text-justify">
+  {/* d100 */}
+       <div className="row">
+        <button
+          className="bg-blue-200 hover:bg-blue-700 hover:text-white m-1 text-2xl"
+          onClick={roll100}
+        >d100</button>
+      </div>
   {/* coin flip */}
       <div className="row">
         <button
@@ -148,21 +191,8 @@ const App=()=> {
           onClick={flipCoin}
         >Coin Flip</button>
       </div>
-  {/* d12 */}
-       <div className="row">
-        <button
-          className="bg-blue-200 hover:bg-blue-700 hover:text-white m-1 text-2xl"
-          onClick={roll12}
-        >d12</button>
-      </div>
+      <span className="text-2xl">{coin}</span>
 
-  {/* d10 */}
-       <div className="row">
-        <button
-          className="bg-blue-200 hover:bg-blue-700 hover:text-white m-1 text-2xl"
-          onClick={roll10}
-        >d10</button>
-      </div>
   </div>
 
 
@@ -170,27 +200,6 @@ const App=()=> {
 
       </div>
 
-
-  {/* utility row */}
-  <div className="row m-1">
-
-  {/* change mode */}
-          <button
-            className={`
-              hover:bg-gray-700 hover:text-white m-1
-              ${mode === false ? 'bg-gray-200 text-black' : 'bg-gray-500 text-white'  }`
-            }
-            onClick={modeChange}
-          >+</button>
-
-  {/* reset button */}
-          <button
-            onClick={resetBtn}
-            className={`
-            hover:bg-gray-700 hover:text-white m-1
-            `}
-          >reset</button>
-    </div>
   </div>
   )
 
